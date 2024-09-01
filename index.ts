@@ -1,6 +1,7 @@
 import chalk from "chalk";
 
 const environment = Bun.env.ENVIRONMENT;
+const methods = 'GET, DELETE, HEAD, PATCH, PUT, OPTIONS, POST';
 let accessControlAllowOrigins = "*";
 if (environment === "production") {
     accessControlAllowOrigins = "https://mameru.vercel.app"
@@ -8,7 +9,7 @@ if (environment === "production") {
 
 const CORS_HEADERS = {
         'Access-Control-Allow-Origin': accessControlAllowOrigins,
-        'Access-Control-Allow-Methods': 'GET, DELETE, HEAD, PATCH, PUT, OPTIONS, POST',
+        'Access-Control-Allow-Methods': methods,
 };
 
 // TODO
@@ -40,18 +41,17 @@ const server = Bun.serve({
                 const username = "@mameru-carr";
                 const endpoint = `users/current/stats`;
                 const url = `${base_url}/${endpoint}`;
-                const response = await fetch(url, {
+                const wakatimeResponse = await fetch(url, {
                     method: "GET",
                     headers : {
                         Authorization: `Basic ${encodedKey}`,
                     },
                 });
-                const stats: StatsResponse = await response.json();
-                return Response.json(stats, {
-                    headers: {
-                        ...CORS_HEADERS
-                    }
-                });
+                const stats: StatsResponse = await wakatimeResponse.json();
+                const apiResponse = new Response(JSON.stringify(stats));
+                apiResponse.headers.set('Access-Control-Allow-Origin', accessControlAllowOrigins);
+                apiResponse.headers.set('Access-Control-Allow-Methods', methods);
+                return apiResponse;
         }
     },
 });

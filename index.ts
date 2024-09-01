@@ -7,12 +7,11 @@ if (environment === "production") {
 }
 
 const CORS_HEADERS = {
-    headers: {
         'Access-Control-Allow-Origin': accessControlAllowOrigins,
         'Access-Control-Allow-Methods': 'OPTIONS, POST',
         'Access-Control-Allow-Headers': 'Content-Type',
-    },
 };
+
 // TODO
 // 1. CORS
 // 2. HTTP File
@@ -39,9 +38,10 @@ const server = Bun.serve({
             const url = `${base_url}/${endpoint}`;
             const response = await fetch(url, {
                 method: "GET",
-                headers: {
-                    Authorization: `Basic ${encodedKey}`
-                }
+                headers : {
+                    Authorization: `Basic ${encodedKey}`,
+                    ...CORS_HEADERS
+                },
             });
             const stats: StatsResponse = await response.json();
             return Response.json(stats);

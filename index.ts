@@ -17,7 +17,6 @@ const CORS_HEADERS = {
 // 2. HTTP File
 
 const server = Bun.serve({
-    port: 3000,
     async fetch(request) {
 
         // Handle CORS preflight requests

@@ -4,7 +4,7 @@ const environment = Bun.env.ENVIRONMENT;
 const methods = 'GET, DELETE, HEAD, PATCH, PUT, OPTIONS, POST';
 let accessControlAllowOrigins = "*";
 if (environment === "production") {
-    accessControlAllowOrigins = ["https://mameru.vercel.app/*", "https://mameru-git-*-samuel-carrs-projects.vercel.app/*", "https://mameru-*-samuel-carrs-projects.vercel.app/*"]
+    accessControlAllowOrigins = "https://mameru*.vercel.app/*"
 }
 
 const CORS_HEADERS = {
